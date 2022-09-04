@@ -18,13 +18,24 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
+from todoapp.views import ProjectModelViewSet, TODOModelViewSet
 from usersapp.views import UsersModelViewSet
+from rest_framework.authtoken import views
 
 router = DefaultRouter()
-router.register('usersapp', UsersModelViewSet)
+filter_router = DefaultRouter()
+
+
+router.register('users', UsersModelViewSet)
+router.register('projects', ProjectModelViewSet)
+router.register('todos', TODOModelViewSet)
+filter_router.register('projects_filter', ProjectModelViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
+    # path('filter/', include(filter_router.urls)),
+    path('api-token-auth/', views.obtain_auth_token),
+
 ]
